@@ -22,11 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Coyote Time
-    private bool canJump = false;
     [SerializeField] private float coyoteTimerLength = 0.15f;
     private float coyoteTimeRemaining;
-    private bool coyoteTimerStarted = false;
-    private bool justJumped = false;
 
     // Fluid movement of character  
     [SerializeField] private float riseGravity = 2f;
@@ -64,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity.y
         );
 
+        // Check if player is moving vertically
         if (rb.linearVelocity.y < 0)
         {
             // Falling
@@ -81,15 +79,18 @@ public class PlayerMovement : MonoBehaviour
         // Sprite flipping
         if (moveInput.x > 0)
         {
-            spriteRenderer.flipX = true;
-        }
-        if (moveInput.x < 0)
-        {
             spriteRenderer.flipX = false;
         }
-
+        if (moveInput.x < 0)
+        {   
+            spriteRenderer.flipX = true;
+        }
+            
         // Grounded
         isGrounded = Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), 0f, groundLayer);
+
+        // When to set jump animation
+        animator.SetBool("isGrounded", isGrounded);
 
         if (isGrounded)
         {
@@ -99,9 +100,8 @@ public class PlayerMovement : MonoBehaviour
             coyoteTimeRemaining -= Time.deltaTime;
         }
 
-        // Animations 
+        // Run animation if player is moving 
         animator.SetBool("isMoving", Mathf.Abs(moveInput.x) > 0.01f);
-        
     }
 
     // Used to check grounded collider

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a3caaba2554bc3e43856c8e12ee663ba
+guid: fbdbf50313b09d5418cb0d72c82d40a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5075504995146237519
-    second: squirrel_jumping_0
+      213: -8320940386274592138
+    second: squirrel_run_two_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: squirrel_jumping_0
+      name: squirrel_run_two_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f468963e6e0df6640800000000000000
-      internalID: 5075504995146237519
+      spriteID: 67ab6ee0ec4168c80800000000000000
+      internalID: -8320940386274592138
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      squirrel_jumping_0: 5075504995146237519
+      squirrel_run_two_0: -8320940386274592138
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
