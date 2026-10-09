@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     private bool coyoteTimerStarted = false;
     private bool justJumped = false;
 
+    // Fluid movement of character  
+    [SerializeField] private float riseGravity = 2f;
+    [SerializeField] private float fallGravity = 5f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,6 +63,17 @@ public class PlayerMovement : MonoBehaviour
             moveInput.x * moveSpeed,
             rb.linearVelocity.y
         );
+
+        if (rb.linearVelocity.y < 0)
+        {
+            // Falling
+            rb.gravityScale = fallGravity;
+        }
+        else
+        {
+            // Rising
+            rb.gravityScale = riseGravity;
+        }
     }
 
     private void Update()
