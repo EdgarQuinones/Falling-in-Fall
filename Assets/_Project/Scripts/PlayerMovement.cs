@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {   
         // Sprite flipping
-        if (moveInput.x > 0)
+        if (moveInput.x > 0 || moveInput.x == 0)
         {
             spriteRenderer.flipX = false;
         }
