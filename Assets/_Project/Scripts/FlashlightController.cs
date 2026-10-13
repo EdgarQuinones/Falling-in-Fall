@@ -6,7 +6,7 @@ public class FlashlightController : MonoBehaviour
 {
     [SerializeField] private GameObject flashlight;
 
-    private bool isOn;
+    public bool isOn { get; private set; }
 
     private Camera mainCamera;
 
