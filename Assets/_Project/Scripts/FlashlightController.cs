@@ -10,6 +10,28 @@ public class FlashlightController : MonoBehaviour
 
     private Camera mainCamera;
 
+    [SerializeField] private float lightRange = 6f;
+    [SerializeField] private float beamAngle = 45f;
+
+    public bool IsPositionIlluminated(Vector2 position)
+    {
+        if (!isOn)
+            return false;
+
+        Vector2 directionToPosition =
+            position - (Vector2)flashlight.transform.position;
+
+        if (directionToPosition.magnitude > lightRange)
+            return false;
+
+        float angle = Vector2.Angle(
+            flashlight.transform.up,
+            directionToPosition
+        );
+
+        return angle <= beamAngle / 2f;
+    }
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -38,4 +60,6 @@ public class FlashlightController : MonoBehaviour
         isOn = !isOn;
         flashlight.SetActive(isOn);
     }
+
+
 }

@@ -7,19 +7,36 @@ public class LeafController : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float warningDelay = 2f;
     [SerializeField] private float shakeDuration = 0.5f;
-    [SerializeField] private float destroyDelay = 3f;
+    [SerializeField] private float respawnDelay = 7f;
 
     [Header("Movement")]
     [SerializeField] private float shakeAmount = 0.08f;
-    [SerializeField] private float fallSpeed = 5f;
 
     private bool isTriggered;
-    private bool isFalling;
     private Vector3 startingPosition;
+
+    private Collider2D solidCollider;
+    private Collider2D triggerCollider;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         startingPosition = transform.position;
+
+        // Solid collider on the leaf itself.
+        solidCollider = GetComponent<Collider2D>();
+
+        // Trigger collider on the child TriggerZone.
+        foreach (Collider2D col in GetComponentsInChildren<Collider2D>())
+        {
+            if (col.isTrigger)
+            {
+                triggerCollider = col;
+                break;
+            }
+        }
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void TriggerLeaf()
@@ -28,20 +45,21 @@ public class LeafController : MonoBehaviour
             return;
 
         isTriggered = true;
-        StartCoroutine(WarningAndFall());
+        StartCoroutine(CrumbleAndRespawn());
     }
 
-    private IEnumerator WarningAndFall()
+    private IEnumerator CrumbleAndRespawn()
     {
-        // Wait before shaking.
+        // Wait before the leaf starts shaking.
         yield return new WaitForSeconds(warningDelay);
 
-        // Shake side to side.
+        // Shake the leaf.
         float elapsed = 0f;
 
         while (elapsed < shakeDuration)
         {
             float offsetX = Random.Range(-shakeAmount, shakeAmount);
+
             transform.position = startingPosition
                 + new Vector3(offsetX, 0f, 0f);
 
@@ -49,20 +67,25 @@ public class LeafController : MonoBehaviour
             yield return null;
         }
 
-        // Restore original position.
+        // Hide the leaf and disable collisions.
         transform.position = startingPosition;
+        spriteRenderer.enabled = false;
+        solidCollider.enabled = false;
 
-        // Begin falling.
-        isFalling = true;
-        Destroy(gameObject, destroyDelay);
-    }
+        if (triggerCollider != null)
+            triggerCollider.enabled = false;
 
-    private void Update()
-    {
-        if (isFalling)
-        {
-            transform.position += Vector3.down
-                * fallSpeed * Time.deltaTime;
-        }
+        // Wait before bringing the leaf back.
+        yield return new WaitForSeconds(respawnDelay);
+
+        // Restore the leaf.
+        transform.position = startingPosition;
+        spriteRenderer.enabled = true;
+        solidCollider.enabled = true;
+
+        if (triggerCollider != null)
+            triggerCollider.enabled = true;
+
+        isTriggered = false;
     }
 }
