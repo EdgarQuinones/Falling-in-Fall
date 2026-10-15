@@ -1,21 +1,51 @@
+
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [System.Serializable]
+    public class CameraSection
+    {
+        public float playerY;
+        public float cameraY;
+    }
+
     [SerializeField] private Transform player;
     [SerializeField] private float smoothSpeed = 5f;
 
-    [SerializeField] private float yOffset;
-    [SerializeField] private float playerOffset = 5f;
+    [SerializeField] private float startFollowAtY = 0.55f;
+    [SerializeField] private float showMiddleTreeAtY = 0.36f;
+    [SerializeField] private SpriteRenderer treeMiddle;
+
+    [SerializeField] private CameraSection[] sections;
+
+    private float initialCameraY;
 
     void Start()
     {
-        yOffset = transform.position.y - player.position.y;
+        initialCameraY = transform.position.y;
     }
 
     void LateUpdate()
     {
-        float targetY = (player.position.y - playerOffset) + yOffset;
+        treeMiddle.enabled = player.position.y > showMiddleTreeAtY;
+
+        if (player.position.y <= startFollowAtY)
+        {
+            transform.position = new Vector3(0, 0, -10);
+            return;
+        }
+
+        float targetY = initialCameraY;
+
+        // Find the highest section the player has reached.
+        foreach (CameraSection section in sections)
+        {
+            if (player.position.y >= section.playerY)
+            {
+                targetY = section.cameraY;
+            }
+        }
 
         float newY = Mathf.Lerp(
             transform.position.y,
@@ -29,5 +59,4 @@ public class CameraFollow : MonoBehaviour
             transform.position.z
         );
     }
-
 }

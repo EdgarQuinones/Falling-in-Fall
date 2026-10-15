@@ -9,14 +9,16 @@ public class Swappable : MonoBehaviour
     [SerializeField] private Transform[] positions;
     [SerializeField] private Collider2D playerCollider;
     [SerializeField] private Collider2D platformCollider;
+    [SerializeField] private UnityEngine.Rendering.Universal.Light2D platformLight;
 
-    // So it only swaps once if flashlight is off
-    private bool hasSwappedWhileOff;
 
     private bool playerColliding = false;
 
+    // Prevent swapping more than once per state 
+    private bool hasSwappedWhileOff;
     private bool wasOccupiedWhenLightTurnedOff;
     private bool previousLightState;
+    private bool hasSwappedWhileUnilluminated;
 
     [Header("Settings")]
     [SerializeField] private float unobservedTime = 1f;
@@ -34,24 +36,6 @@ public class Swappable : MonoBehaviour
         }
 
         transform.position = positions[0].position;
-
-        // Identify which marker matches the object's starting position.
-        float closestDistance = float.MaxValue;
-
-        for (int i = 0; i < positions.Length; i++)
-        {
-            if (positions[i] == null)
-                continue;
-
-            float distance = Vector2.Distance(
-                transform.position, positions[i].position);
-
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                currentIndex = i;
-            }
-        }
     }
 
     private void Update()
@@ -89,19 +73,28 @@ public class Swappable : MonoBehaviour
             return;
         }
 
-        // Flashlight ON and platform illuminated: reset timer.
+        // Flashlight is ON and platform is illuminated.
         if (flashlightController.IsPositionIlluminated(transform.position))
         {
+            platformLight.intensity = 1;
             timer = 0f;
+            hasSwappedWhileUnilluminated = false;
             return;
+        } else
+        {
+            platformLight.intensity = 0;
         }
 
-        // Flashlight ON but pointed away: wait before swapping.
+        // Platform is unilluminated.
+        if (hasSwappedWhileUnilluminated)
+            return;
+
         timer += Time.deltaTime;
 
         if (timer >= unobservedTime)
         {
             TrySwap();
+            hasSwappedWhileUnilluminated = true;
             timer = 0f;
         }
     }

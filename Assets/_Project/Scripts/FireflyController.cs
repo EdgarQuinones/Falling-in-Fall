@@ -10,7 +10,6 @@ public class FireflyController : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        fireflyLight = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
     }
 
     private void Update()
