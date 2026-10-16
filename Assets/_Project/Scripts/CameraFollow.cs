@@ -12,11 +12,6 @@ public class CameraFollow : MonoBehaviour
 
     [SerializeField] private Transform player;
     [SerializeField] private float smoothSpeed = 5f;
-
-    [SerializeField] private float startFollowAtY = 0.55f;
-    [SerializeField] private float showMiddleTreeAtY = 0.36f;
-    [SerializeField] private SpriteRenderer treeMiddle;
-
     [SerializeField] private CameraSection[] sections;
 
     private float initialCameraY;
@@ -28,14 +23,6 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        //treeMiddle.enabled = player.position.y > showMiddleTreeAtY;
-
-        if (player.position.y <= startFollowAtY)
-        {
-            transform.position = new Vector3(0, 0, -10);
-            return;
-        }
-
         float targetY = initialCameraY;
 
         // Find the highest section the player has reached.

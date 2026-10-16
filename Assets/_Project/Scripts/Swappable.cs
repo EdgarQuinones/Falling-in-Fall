@@ -9,22 +9,23 @@ public class Swappable : MonoBehaviour
     [SerializeField] private Transform[] positions;
     [SerializeField] private Collider2D playerCollider;
     [SerializeField] private Collider2D platformCollider;
-    [SerializeField] private UnityEngine.Rendering.Universal.Light2D platformLight;
 
+    [Header("Settings")]
+    [SerializeField] private float unobservedTime = 1f;
+    [SerializeField] private float shakeAmount = 0.025f;
+    [SerializeField] private float shakeSpeed = 12f;
 
     private bool playerColliding = false;
 
-    // Prevent swapping more than once per state 
+    // Prevent swapping more than once per state.
     private bool hasSwappedWhileOff;
     private bool wasOccupiedWhenLightTurnedOff;
     private bool previousLightState;
     private bool hasSwappedWhileUnilluminated;
 
-    [Header("Settings")]
-    [SerializeField] private float unobservedTime = 1f;
-
     private float timer;
     private int currentIndex;
+    private Vector3 originalPosition;
 
     private void Start()
     {
@@ -36,11 +37,16 @@ public class Swappable : MonoBehaviour
         }
 
         transform.position = positions[0].position;
+        currentIndex = 0;
+        originalPosition = transform.position;
     }
 
     private void Update()
     {
         bool lightIsOn = flashlightController.isOn;
+
+        bool illuminated = lightIsOn &&
+            flashlightController.IsPositionIlluminated(transform.position);
 
         // Detect flashlight state changes.
         if (lightIsOn != previousLightState)
@@ -52,6 +58,18 @@ public class Swappable : MonoBehaviour
             }
 
             previousLightState = lightIsOn;
+        }
+
+        // Shake when illuminated, unless the player is standing on it.
+        if (illuminated && !playerColliding)
+        {
+            float offsetX = Mathf.Sin(Time.time * shakeSpeed) * shakeAmount;
+            transform.position = originalPosition +
+                new Vector3(offsetX, 0f, 0f);
+        }
+        else
+        {
+            transform.position = originalPosition;
         }
 
         // Don't swap while the player is on the platform.
@@ -73,16 +91,12 @@ public class Swappable : MonoBehaviour
             return;
         }
 
-        // Flashlight is ON and platform is illuminated.
-        if (flashlightController.IsPositionIlluminated(transform.position))
+        // Platform is illuminated.
+        if (illuminated)
         {
-            platformLight.intensity = 1;
             timer = 0f;
             hasSwappedWhileUnilluminated = false;
             return;
-        } else
-        {
-            platformLight.intensity = 0;
         }
 
         // Platform is unilluminated.
@@ -103,7 +117,7 @@ public class Swappable : MonoBehaviour
     {
         List<int> candidates = new List<int>();
 
-        // Find all valid, unilluminated destinations.
+        // Find valid, unilluminated destinations.
         for (int i = 0; i < positions.Length; i++)
         {
             if (i == currentIndex || positions[i] == null)
@@ -116,7 +130,7 @@ public class Swappable : MonoBehaviour
             }
         }
 
-        // No safe destination? Keep waiting and try again next frame.
+        // No safe destination? Keep the current position.
         if (candidates.Count == 0)
             return;
 
@@ -124,6 +138,7 @@ public class Swappable : MonoBehaviour
 
         transform.position = positions[choice].position;
         currentIndex = choice;
+        originalPosition = transform.position;
         timer = 0f;
     }
 
@@ -138,5 +153,4 @@ public class Swappable : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
             playerColliding = false;
     }
-
 }
