@@ -4,8 +4,7 @@ using UnityEngine.Rendering.Universal;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private FlashlightController flashlightController;
-    [SerializeField] private UnityEngine.Rendering.Universal.Light2D globalLight;    // Update is called once per frame
-    void Update()
+        void Update()
     {
 
     }
