@@ -52,9 +52,9 @@ public class FlashlightController : MonoBehaviour
         flashlight.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
     }
 
-    public void OnFlash(InputValue value)
+    public void OnFlash(InputAction.CallbackContext context)
     {
-        if (!value.isPressed)
+        if (!context.performed)
             return;
 
         isOn = !isOn;

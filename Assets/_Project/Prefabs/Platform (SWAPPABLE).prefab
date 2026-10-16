@@ -105,14 +105,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e3d4f677aed724cb07d15c25fd4d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flashlightController: {fileID: 0}
+  flashlightController: {fileID: 8351397469330425517, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
   positions:
   - {fileID: 0}
   - {fileID: 0}
-  playerCollider: {fileID: 0}
-  platformCollider: {fileID: 0}
-  platformLight: {fileID: 0}
-  unobservedTime: 1
+  playerCollider: {fileID: 1646063000225507315, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
+  platformCollider: {fileID: 4287700431100827324}
+  unobservedTime: 0.5
+  shakeAmount: 0.025
+  shakeSpeed: 12
 --- !u!61 &4287700431100827324
 BoxCollider2D:
   m_ObjectHideFlags: 0
