@@ -1604,14 +1604,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 440198215317540920, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
-      propertyPath: runVolume
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 440198215317540920, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
-      propertyPath: jumpVolume
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 1756351161378218329, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
       propertyPath: m_Name
       value: Nutty
