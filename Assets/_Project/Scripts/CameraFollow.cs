@@ -28,7 +28,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        treeMiddle.enabled = player.position.y > showMiddleTreeAtY;
+        //treeMiddle.enabled = player.position.y > showMiddleTreeAtY;
 
         if (player.position.y <= startFollowAtY)
         {
