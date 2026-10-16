@@ -111,7 +111,7 @@ MonoBehaviour:
   - {fileID: 0}
   playerCollider: {fileID: 1646063000225507315, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
   platformCollider: {fileID: 4287700431100827324}
-  unobservedTime: 0.5
+  unobservedTime: 1
   shakeAmount: 0.025
   shakeSpeed: 12
 --- !u!61 &4287700431100827324
