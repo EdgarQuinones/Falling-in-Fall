@@ -3,17 +3,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Player movement
+    [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 15f;
+    [SerializeField] private float riseGravity = 2f;
+    [SerializeField] private float fallGravity = 5f;
     private Vector2 moveInput;
+    private bool isMoving;
 
     // Components
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    // Grounded Logic
+    [Header("Grounded Logic")]
     [SerializeField] private LayerMask groundLayer; 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckWidth = 0.2f;
@@ -25,9 +28,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float coyoteTimerLength = 0.15f;
     private float coyoteTimeRemaining;
 
-    // Fluid movement of character  
-    [SerializeField] private float riseGravity = 2f;
-    [SerializeField] private float fallGravity = 5f;
+
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip runSound;
+    [SerializeField, Range(0f, 1f)] private float jumpVolume = 0.45f;
+    [SerializeField, Range(0f, 1f)] private float runVolume = 0.20f;
 
     private void Awake()
     {
@@ -36,21 +44,22 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void OnMove(InputValue value)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = value.Get<Vector2>();
+        moveInput = context.ReadValue<Vector2>();
     }
 
-    public void OnJump(InputValue value)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (value.isPressed && coyoteTimeRemaining > 0f)
+        if (context.performed && coyoteTimeRemaining > 0f)
         {
             coyoteTimeRemaining = 0f;
 
             rb.linearVelocity = new Vector2(
                 rb.linearVelocity.x,
                 jumpForce
-            ); 
+            );
+            audioSource.PlayOneShot(jumpSound, jumpVolume);
         }
     }
 
@@ -75,7 +84,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {   
+    {
+        isMoving = Mathf.Abs(moveInput.x) > 0.01f;
+
+        if (isMoving)
+        {
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(runSound, runVolume);
+        }
+
         // Sprite flipping
         if (moveInput.x > 0 || moveInput.x == 0)
         {
@@ -101,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Run animation if player is moving 
-        animator.SetBool("isMoving", Mathf.Abs(moveInput.x) > 0.01f);
+        animator.SetBool("isMoving", isMoving);
     }
 
     // Used to check grounded collider

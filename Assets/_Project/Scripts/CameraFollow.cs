@@ -10,29 +10,47 @@ public class CameraFollow : MonoBehaviour
         public float cameraY;
     }
 
+    [Header("References")]
     [SerializeField] private Transform player;
-    [SerializeField] private float smoothSpeed = 5f;
+
+    [Header("Settings")]
+    [SerializeField] private float smoothSpeed = 2f;
+    [SerializeField] private float fallBuffer = 3f;
+
+    [Header("Camera Sections")]
     [SerializeField] private CameraSection[] sections;
 
     private float initialCameraY;
+    private int currentSection = -1;
 
-    void Start()
+    private void Start()
     {
         initialCameraY = transform.position.y;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        float targetY = initialCameraY;
+        if (player == null || sections == null || sections.Length == 0)
+            return;
 
-        // Find the highest section the player has reached.
-        foreach (CameraSection section in sections)
+        // Move up when reaching a new section.
+        while (currentSection + 1 < sections.Length &&
+               player.position.y >= sections[currentSection + 1].playerY)
         {
-            if (player.position.y >= section.playerY)
-            {
-                targetY = section.cameraY;
-            }
+            currentSection++;
         }
+
+        // Move down only after falling below the buffer.
+        while (currentSection >= 0 &&
+               player.position.y <
+               sections[currentSection].playerY - fallBuffer)
+        {
+            currentSection--;
+        }
+
+        float targetY = currentSection >= 0
+            ? sections[currentSection].cameraY
+            : initialCameraY;
 
         float newY = Mathf.Lerp(
             transform.position.y,

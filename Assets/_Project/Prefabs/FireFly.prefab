@@ -49,7 +49,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
+  m_Intensity: 50
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 000000004d8f5bc05959e487e3083f2d77c8f5cd
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5bfae8d9b04374dafe28a799546791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  flashlightController: {fileID: 0}
+  flashlightController: {fileID: 8351397469330425517, guid: d2c030a67c114a6408a5af0539a2b0dd, type: 3}
   spriteRenderer: {fileID: 6209674516217058324}
   fireflyLight: {fileID: 5112002645901308639}
 --- !u!95 &707157662916167272

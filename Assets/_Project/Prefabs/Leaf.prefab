@@ -108,9 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   warningDelay: 1
   shakeDuration: 0.5
-  destroyDelay: 3
+  respawnDelay: 5
   shakeAmount: 0.08
-  fallSpeed: 5
 --- !u!61 &401089834120622402
 BoxCollider2D:
   m_ObjectHideFlags: 0
