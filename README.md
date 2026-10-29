@@ -2,7 +2,7 @@
 
 A 2D platformer where a squirrel climbs a mysterious tree in the darkness. Use your flashlight to reveal the path ahead, navigate platforms, and make your way toward the top.
 
-🎮 **[Play on itch.io](https://edgarquinones.itch.io/falling-in-fall)** | 💻 **[View Source Code](https://github.com/EdgarQuinones/Falling-in-Fall)**
+**[Play on itch.io](https://edgarquinones.itch.io/falling-in-fall)** | **[View Source Code](https://github.com/EdgarQuinones/Falling-in-Fall)**
 
 ## Controls
 
