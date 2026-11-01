@@ -16,3 +16,7 @@ A 2D platformer where a squirrel climbs a mysterious tree in the darkness. Use y
 - **Character Art & Platforms:** [Viperiin](https://github.com/viperiin)
 - **Backgrounds & Environment Art:** [Pixieparfait](https://github.com/pixieparfait)
 - **Music & Sound Design:** [Kenney](https://kenney-assets.itch.io/)
+
+## Play Now
+
+Interested in playing? Play Kerby Run [on itch.io](https://edgarquinones.itch.io/falling-in-fall)! 
