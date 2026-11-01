@@ -19,4 +19,4 @@ A 2D platformer where a squirrel climbs a mysterious tree in the darkness. Use y
 
 ## Play Now
 
-Interested in playing? Play Kerby Run [on itch.io](https://edgarquinones.itch.io/falling-in-fall)! 
+Interested in playing? Play Falling in Fall [on itch.io](https://edgarquinones.itch.io/falling-in-fall)! 
